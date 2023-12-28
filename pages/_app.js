@@ -7,6 +7,7 @@ export default function Nextra({ Component, pageProps }) {
   return (
     <>
       <Head>
+        <meta property="og:image" content="https://themelon.space/nature.jpg"/>
         <link
           rel="preload"
           href="/fonts/Inter-roman.latin.var.woff2"
