@@ -1,7 +1,65 @@
 ---
+type: page
 title: Eia64
-date: 2024-6-26
+date: 2024/6/26
 description: How to code Eia64
 author: Kumaraswamy B G
 ---
+
+# Eia 64
+
+## Binary Operators
+
+Equals `==`, NotEqual `!=`\
+GreaterThan `>`, LesserThan `<`\
+GreaterThanEquals `>=`, LesserThanEquals `<=`\
+Plus `+`, MinusOrNegate `-`, `*` Times, Division `/`\
+And `&&`, Or `||`, Bitwise And `&`, Bitwise Or `|`\
+BooleanNot `!`\
+KitaOperator (to evaluate Units) `~`\
+Increment `++`, Decrement `--`\
+Assignment `=`, AddAssign `+=`, ReduceAssign `-=`, TimesAssign `*=`, DivideAssign `/=`
+
+## Data types
+
+Integer `Int`\
+Boolean `Bool`\
+String `String`\
+Character `Char`\
+Array `Array`\
+Unit (code blocks) `Unit`\
+Any `Any`
+
+## Variables
+
+`let` define a constant immutable variable.
+
+```swift
+let x = 5
+println(x * 5)
+```
+
+`var` define a variable mutable to any value or type.
+
+```kotlin
+var y = "25"
+println(y * 5)
+
+y = "hello world"
+println(y)
+println(y = 5)
+```
+
+Defining a type explicitly.
+
+```swift
+let a: Int = 5 * 2
+let name: String = "melon"
+let aUnit: Unit = { println("hello world") }
+let anArray: Array = ~{ "hello" "world" }
+println(anArray[0] == "hello")
+let someValue: Any = "Hello " + 5
+```
+
+### Loops
 
