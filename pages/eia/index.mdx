@@ -8,6 +8,8 @@ author: Kumaraswamy B G
 
 # Eia 64
 
+Eia64 syntax is heavily inspired by simplicity of Kotlin.
+
 ## Binary Operators
 
 Equals `==`, NotEqual `!=`\
@@ -200,7 +202,7 @@ println("Read line: " + line)
 
 > I put my best effort into the language, hope you like it :)
 
-#### General Purpose
+##### General Purpose
 
 `time()` returns time since program startup\
 `rand(from Int, to Int)` returns a random number from the range provided\
@@ -208,7 +210,7 @@ println("Read line: " + line)
 `sleep(Int)` sleeps for n millis\
 `copy(Any)` creates a copy of that object, only supports String, Int, Bool and Char type.
 
-#### String formatting
+##### String formatting
 
 You can use `format(String, Any args...)` native method to format your Strings.
 This is entirely same as `String.format()` in Java.
@@ -220,7 +222,7 @@ println(format("Today is June %dth", day))
 
 Prints `Today is June 5th`
 
-#### Including Std Libs
+##### Including Std Libs
 
 Eia64 provides a standard library, that is written in Eia itself.
 [Check it out](https://github.com/XomaDev/Eia64/blob/main/stdlib).
@@ -243,4 +245,132 @@ Output:
 ```
 Average of numbers: 5
 1
+```
+
+#### Array Operations
+
+You can allocate an array using `arralloc(Int)`
+
+
+A code demonstrating taking a person's name through `readln()` then converting the read input string into an array of characters.
+
+```swift
+print("Enter your name: ")
+
+let personName = readln()
+let nameLength = len(personName)
+
+let charactersOfName = arralloc(nameLength)
+
+for (var i = 0, i < nameLength, i++) {
+  charactersOfName[i] = personName[i]
+}
+
+println(charactersOfName)
+```
+```
+Enter your name: Melon
+EArray([M, e, l, o, n])
+```
+
+Similarly, you can also change an element in an array e.g. `myArray[xIndex] = 7`
+
+### Functions
+
+Eia functions are declared using the `fn` keyword.\
+By default, return type is Any.
+
+```go
+fn sayHello(name: String) {
+  println(format("Hello %s!", name))
+}
+sayHello("Melon")
+```
+
+#### Function usage
+
+Functions are called using the standard approach:
+
+```go
+fn square(x: Int) {
+  return x * 2
+}
+println(square(5))
+```
+
+##### Parameters
+
+Function parameters are defined in the format - name: type.
+
+```kotlin
+fn powerOf(number: Int, exponent: Int): Int { .. }
+```
+
+##### Assignment style
+
+Eia64 supports an inline assignment style body
+
+```go
+fn square(n: Int) = n * n
+println(square(5))
+```
+
+##### Returning
+
+You can simply use the `return` keyword followed by an expression
+
+```swift
+fn calculate(x: Int, y: Int) {
+ ...
+ return result
+}
+```
+
+#### Units
+
+In most modern languages, you can pass a code block as an argument or store it in a variable.\
+You can do that in Eia too! They are called `Unit` types.
+
+You execute a code block using the `~` (what I call as Kita operator)
+
+```swift
+let printRandomNumbers: Unit = {
+  let n = rand(0, 9999)
+  println("A random number: " + n)
+}
+~printUnit
+~printUnit
+```
+
+Output:
+
+```
+A random number: 5260
+A random number: 6186
+```
+
+A more complex example:
+
+```swift
+var square_result = 0
+var n = 0
+fn square(upto: Int, callback: Unit) {
+  for (n = 0, n < upto, n++) {
+    square_result = n * n
+    ~callback
+  }
+}
+
+let callback = { println(n + " squared is " + square_result) }
+square(5, callback)
+```
+
+Output:
+
+```
+0 squared is 0
+1 squared is 1
+2 squared is 4
+3 squared is 9
+4 squared is 16
 ```
