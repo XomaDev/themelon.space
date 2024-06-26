@@ -16,7 +16,7 @@ GreaterThanEquals `>=`, LesserThanEquals `<=`\
 Plus `+`, MinusOrNegate `-`, `*` Times, Division `/`\
 And `&&`, Or `||`, Bitwise And `&`, Bitwise Or `|`\
 BooleanNot `!`\
-KitaOperator (to evaluate Units) `~`\
+KitaOperator (breaks down units into array) `~`\
 Increment `++`, Decrement `--`\
 Assignment `=`, AddAssign `+=`, ReduceAssign `-=`, TimesAssign `*=`, DivideAssign `/=`
 
@@ -61,5 +61,186 @@ println(anArray[0] == "hello")
 let someValue: Any = "Hello " + 5
 ```
 
+### If expression
+
+```kotlin
+let x = true
+if (condition) { .. } else { .. }
+```
+
+```kotlin
+if (condition { .. } else if { .. }
+```
+
+```swift
+if (5 * 5 == 25) { println("Yep!") }
+```
+
+#### As expressions
+
+```swift
+let a = 5
+let b = 7
+println(if (a > b) a else b)
+```
+
 ### Loops
 
+Eia supports three kinds of loops, an `until` loop, an `itr` each and a `for` loop.
+`continue` and `break` statements are supported.
+
+#### Until Loop
+
+```kotlin
+var i = 0
+until (i++ < 5) {
+  if (i == 5) break
+  println("I is " + i)
+}
+```
+
+```
+I is 1
+I is 2
+I is 3
+I is 4
+```
+
+### For each loop
+
+For each loop can be applied on a `String` and `Array` type
+
+#### Iterating through every Char of a String
+
+```kotlin
+let text = "cat"
+var reconstruct = ""
+itr (letter in text) {
+  reconstruct += letter
+}
+```
+```
+cat
+```
+
+#### Iterating on an Array
+
+```swift
+let names = ~{ "France" "Italy" "Germany" }
+itr (name in names) {
+  println(name)
+}
+```
+
+```
+France
+Italy
+Germany
+```
+
+### For Loop
+
+Similar to most programming languages, you can declare a for loop with syntax using\
+`for (initializer, coniditonal, operational)` syntax
+
+```swift
+let letters = ~{ 'H' 'A' 'C' 'K' ' ' 'C' 'L' 'U' 'B' '!' }
+
+for (var i = 1, i < 11, i++) {
+  var tillN = ""
+  for (var j = 0, j < i, j++)
+    tillN += letters[j]
+  println(tillN)
+}
+```
+
+This would output:
+
+```
+H
+HA
+HAC
+HACK
+HACK
+HACK C
+HACK CL
+HACK CLU
+HACK CLUB
+HACK CLUB!
+```
+
+> Expressions can be empty, e.g.`for (,,) { ... }`
+
+### Native methods
+
+#### Primitive Conversion
+
+`int(String)` String type to Int
+`bool(String)` String type to Boolean
+`str(Any)` Any type to String
+
+#### I/O
+
+##### Print
+`print(Any...)`
+`println(Any...`
+
+```kotlin
+println("Hello", " World")
+```
+
+##### Read
+
+You can use `read()` and `readln()` to read user inputs.
+
+```swift
+let aLine = readln()
+println("Read line: " + line)
+```
+
+> I put my best effort into the language, hope you like it :)
+
+#### General Purpose
+
+`time()` returns time since program startup\
+`rand(from Int, to Int)` returns a random number from the range provided\
+`len(Any)` returns length of an entity, can be applied on String type, Array type and Unit type.\
+`sleep(Int)` sleeps for n millis\
+`copy(Any)` creates a copy of that object, only supports String, Int, Bool and Char type.
+
+#### String formatting
+
+You can use `format(String, Any args...)` native method to format your Strings.
+This is entirely same as `String.format()` in Java.
+
+```swift
+let day = 5
+println(format("Today is June %dth", day))
+```
+
+Prints `Today is June 5th`
+
+#### Including Std Libs
+
+Eia64 provides a standard library, that is written in Eia itself.
+[Check it out](https://github.com/XomaDev/Eia64/blob/main/stdlib).
+
+You can include them using `stdlib(Names...)`
+
+Available classes: `string`, `array`, `math`
+
+```swift
+stdlib(array, math)
+
+let nums = ~{ 2 4 6 8 }
+println("Average of numbers: " + math.avg(nums))
+
+println(nums.indexOf(4))
+```
+
+Output:
+
+```
+Average of numbers: 5
+1
+```
