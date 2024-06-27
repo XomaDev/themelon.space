@@ -433,6 +433,21 @@ It would print `EArray([1, 2, 3, 4, 5])`
 - `add(element: Any)` creates a new array with the added element
 - `removeAt(index: Int)` creates a new array without the element at the index
 
+#### Math
+
+- `min(a: Int, b: Int): Int` max of two numbers
+- `max(a: Int, b: Int: Int` min of two numbers
+- `abs(a: Int): Int` abs of int
+- `avg(nums: Array): Int`
+E.g.
+
+```
+stdlib(math)
+
+let x = ~{2 4 6 8}
+println(math.avg(x))
+```
+
 ### General Guidelines
 
 1. Eia64 operates on the principle of referencing, ensuring that data or values are not duplicated unless explicitly requested via the `copy(Any)` method.
@@ -507,4 +522,6 @@ let callback = { println(format("%d^%d is %d", n, power, n_result)) }
 pow(5, power, callback)
 ```
 
-:D
+:D Hope you liked it!
+16-year-old high school programmer,
+Kumaraswamy
