@@ -374,3 +374,135 @@ Output:
 3 squared is 9
 4 squared is 16
 ```
+
+### Standard Library
+
+Eia standard library consists of `String`, `Array` and `Math` classes.
+Codes for standard library is written in Eia64 itself. [Check it out](https://github.com/XomaDev/Eia64/blob/main/stdlib).
+
+#### String
+
+Note that all the functions below when called, do not change the original value, rather creates a new copy.
+
+- `indexOfChar(lookup: Char): Int` index of a character
+- `indexOf(substring: String): Int` index of substring provided
+- `indexOf(substring: String, from: Int): Int` lookups up index of substring, `from` is the onset.
+- `contains(substring: String): Bool` returns if the substring is present
+- `startsWith(prefix: String): Bool` starts with `prefix`?
+- `endsWith(suffix: String): Bool` ends with `suffix`?
+- `uppercase(): String` converts characters to upper case (english alpha only)
+- `lowecase(): String` converts characters to lower case (english alpha only)
+- `substring(from: Int): String` returns a substring starting `from` onset provided
+- `part(from: Int, till: Int): String` returns a substring in the given range
+- `replace(match: String, replacement: String): String` replaces all occurrences of `math` with `replacement`
+- `repeat(n: Int): String` repeats the string `n` times
+- `splitOnce(delimiter: String): Array` splits string into two pieces between `delimiter`, returns an array of two
+- `split(delimiter: String): Array` splits string seperated by `delimiter`
+
+#### Array
+
+- `indexOf(element: Any): Int` index of an element in the array
+- `contains(element: Any): Bool` true if element is present in the array
+- `isEmpty(): Bool` returns if size is 0
+- `recursiveLen(): Int` performs a recursive measurement of arrays in array.
+E.g.
+
+```swift
+stdlib(array)
+
+let x = ~{1 2 3 ~{4 5}}
+println(x.recursiveLen())
+```
+
+The output would be 5.
+
+- `size(): Int` number of elements in the array
+- `flatten(): Array` flattens sub arrays into one common array.
+
+E.g.
+
+```
+stdlib(array)
+
+let x = ~{1 2 3 ~{4 5}}
+println(x.flatten())
+```
+
+It would print `EArray([1, 2, 3, 4, 5])`
+
+- `add(element: Any)` creates a new array with the added element
+- `removeAt(index: Int)` creates a new array without the element at the index
+
+### General Guidelines
+
+1. Eia64 operates on the principle of referencing, ensuring that data or values are not duplicated unless explicitly requested via the `copy(Any)` method.
+Consider this example:
+
+```swift
+fn loop(from: Int) {
+  for (var i = from, i < 5, i++) { println(i) }
+}
+
+let myVariable = 2
+loop(myVariable)
+
+println(myVariable == 5)
+```
+
+In the example above, function `loop()` takes in an `Int`, and performs iteration.
+When `i` was assigned to `from`, the value want copied! It was referenced.
+
+So the output would be `true`.
+
+### Cool Stuff
+
+1. Taking in user input and checking if it's admin!
+
+This also demonstrates using the `:=` operator! That helps to return value when there are multiple expressions.
+
+```swift
+stdlib(string)
+
+let name = readln()
+let admin = if (name.startsWith("Admin")) {
+  println("Admin just logged in!")
+  := true
+} else {
+  println("Its just another normal user")
+  := false
+}
+
+println(admin)
+```
+
+Output:
+
+```
+> AdminMelon
+Admin just logged in!
+true
+```
+
+2. Creating a function that calculates powers and a result callback.
+In the code below, a function `pow()` iterates till `upto` from 0 and powers each `n` to the `power` given.\
+After powering, a callback is invoked through `~` (Kita) operator.
+
+```swift
+var n_result = 0
+var n = 0
+fn pow(upto: Int, power: Int, callback: Unit) {
+    power = copy(power) - 1
+    for (n = 0, n < upto, n++) {
+        n_result = copy(n)
+        let nCopy = copy(n)
+
+        for (var i = 0, i < power, i++)
+          n_result *= nCopy
+        ~callback
+    }
+}
+
+let power = 3
+let callback = { println(format("%d^%d is %d", n, power, n_result)) }
+pow(5, power, callback)
+```
