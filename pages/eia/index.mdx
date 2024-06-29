@@ -375,6 +375,27 @@ Output:
 4 squared is 16
 ```
 
+### Guideline(s)
+
+1. Eia64 operates on the principle of referencing, ensuring that data or values are not duplicated unless explicitly requested via the `copy(Any)` method.
+Consider this example:
+
+```swift
+fn loop(from: Int) {
+  for (var i = from, i < 5, i++) { println(i) }
+}
+
+let myVariable = 2
+loop(myVariable)
+
+println(myVariable == 5)
+```
+
+In the example above, function `loop()` takes in an `Int`, and performs iteration.
+When `i` was assigned to `from`, the value want copied! It was referenced.
+
+So the output would be `true`.
+
 ### Standard Library
 
 Eia standard library consists of `String`, `Array` and `Math` classes.
@@ -421,7 +442,7 @@ The output would be 5.
 
 E.g.
 
-```
+```swift
 stdlib(array)
 
 let x = ~{1 2 3 ~{4 5}}
@@ -441,33 +462,12 @@ It would print `EArray([1, 2, 3, 4, 5])`
 - `avg(nums: Array): Int`
 E.g.
 
-```
+```swift
 stdlib(math)
 
 let x = ~{2 4 6 8}
 println(math.avg(x))
 ```
-
-### General Guidelines
-
-1. Eia64 operates on the principle of referencing, ensuring that data or values are not duplicated unless explicitly requested via the `copy(Any)` method.
-Consider this example:
-
-```swift
-fn loop(from: Int) {
-  for (var i = from, i < 5, i++) { println(i) }
-}
-
-let myVariable = 2
-loop(myVariable)
-
-println(myVariable == 5)
-```
-
-In the example above, function `loop()` takes in an `Int`, and performs iteration.
-When `i` was assigned to `from`, the value want copied! It was referenced.
-
-So the output would be `true`.
 
 ### Cool Stuff
 
@@ -522,6 +522,6 @@ let callback = { println(format("%d^%d is %d", n, power, n_result)) }
 pow(5, power, callback)
 ```
 
-:D Hope you liked it!
-16-year-old high school programmer,
+:D Hope you liked it!\
+16-year-old high school programmer,\
 Kumaraswamy
