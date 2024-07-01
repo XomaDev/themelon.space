@@ -18,7 +18,6 @@ GreaterThanEquals `>=`, LesserThanEquals `<=`\
 Plus `+`, MinusOrNegate `-`, `*` Times, Division `/`\
 And `&&`, Or `||`, Bitwise And `&`, Bitwise Or `|`\
 BooleanNot `!`\
-KitaOperator (breaks down units into array) `~`\
 Increment `++`, Decrement `--`\
 Assignment `=`, AddAssign `+=`, ReduceAssign `-=`, TimesAssign `*=`, DivideAssign `/=`
 
@@ -58,7 +57,7 @@ Defining a type explicitly.
 let a: Int = 5 * 2
 let name: String = "melon"
 let aUnit: Unit = { println("hello world") }
-let anArray: Array = ~{ "hello" "world" }
+let anArray: Array = arrayOf("hello", "world")
 println(anArray[0] == "hello")
 let someValue: Any = "Hello " + 5
 ```
@@ -128,7 +127,7 @@ cat
 #### Iterating on an Array
 
 ```swift
-let names = ~{ "France" "Italy" "Germany" }
+let names = arrayOf("France", "Italy", "Germany")
 itr (name in names) {
   println(name)
 }
@@ -146,7 +145,7 @@ Similar to most programming languages, you can declare a for loop with syntax us
 `for (initializer, coniditonal, operational)` syntax
 
 ```swift
-let letters = ~{ 'H' 'A' 'C' 'K' ' ' 'C' 'L' 'U' 'B' '!' }
+let letters = arrayOf('H', 'A', 'C', 'K', ' ', 'C', 'L', 'U', 'B', '!')
 
 for (var i = 1, i < 11, i++) {
   var tillN = ""
@@ -234,7 +233,7 @@ Available classes: `string`, `array`, `math`
 ```swift
 stdlib(array, math)
 
-let nums = ~{ 2 4 6 8 }
+let nums = arrayOf(2, 4, 6, 8)
 println("Average of numbers: " + math.avg(nums))
 
 println(nums.indexOf(4))
@@ -331,15 +330,13 @@ fn calculate(x: Int, y: Int) {
 In most modern languages, you can pass a code block as an argument or store it in a variable.\
 You can do that in Eia too! They are called `Unit` types.
 
-You execute a code block using the `~` (what I call as Kita operator)
-
 ```swift
 let printRandomNumbers: Unit = {
   let n = rand(0, 9999)
   println("A random number: " + n)
 }
-~printUnit
-~printUnit
+printRandomNumbers()
+printRandomNumbers()
 ```
 
 Output:
@@ -357,7 +354,7 @@ var n = 0
 fn square(upto: Int, callback: Unit) {
   for (n = 0, n < upto, n++) {
     square_result = n * n
-    ~callback
+    callback()
   }
 }
 
@@ -373,6 +370,36 @@ Output:
 2 squared is 4
 3 squared is 9
 4 squared is 16
+```
+
+#### What if you wanted to pass arguments to Units?
+
+Did you know that in recent update Eia supports `shado` units 👀\
+They are special form of Units that support arguments!\
+You can define it same way as Units but using the `shado` keyword.
+
+```swift
+let plus = shado(x, y) = x + y
+println(plus(2, 3))
+```
+
+This prints out `5`.
+
+Passing in arguments"
+
+```swift
+let parrot = shado(name) {
+  println(format("Hello %s!", name))
+  := len(name)
+}
+println(parrot("Melon"))
+```
+
+This outputs:
+
+```
+Hello Melon!
+5
 ```
 
 ### Guideline(s)
@@ -431,7 +458,7 @@ E.g.
 ```swift
 stdlib(array)
 
-let x = ~{1 2 3 ~{4 5}}
+let x = arrayOf(1, 2, 3, arrayOf(4, 5))
 println(x.recursiveLen())
 ```
 
@@ -445,7 +472,7 @@ E.g.
 ```swift
 stdlib(array)
 
-let x = ~{1 2 3 ~{4 5}}
+let x = arrayOf(1, 2, 3, arrayOf(4, 5))
 println(x.flatten())
 ```
 
@@ -465,7 +492,7 @@ E.g.
 ```swift
 stdlib(math)
 
-let x = ~{2 4 6 8}
+let x = arrayOf(2, 4, 6, 8)
 println(math.avg(x))
 ```
 
@@ -500,27 +527,46 @@ true
 
 2. Creating a function that calculates powers and a result callback.
 In the code below, a function `pow()` iterates till `upto` from 0 and powers each `n` to the `power` given.\
-After powering, a callback is invoked through `~` (Kita) operator.
+After powering, a callback is invoked with the results.
 
 ```swift
-var n_result = 0
-var n = 0
 fn pow(upto: Int, power: Int, callback: Unit) {
     power = copy(power) - 1
+
+    var n_result = 0
+    var n = 0
     for (n = 0, n < upto, n++) {
         n_result = copy(n)
         let nCopy = copy(n)
 
         for (var i = 0, i < power, i++)
           n_result *= nCopy
-        ~callback
+        callback(n, n_result)
     }
 }
 
 let power = 3
-let callback = { println(format("%d^%d is %d", n, power, n_result)) }
+let callback = shado(n, result){
+  println(format("%d^%d is %d", n, power, result))
+}
 pow(5, power, callback)
 ```
+
+This would output:
+
+```
+0^3 is 0
+1^3 is 1
+2^3 is 8
+3^3 is 27
+4^3 is 64
+```
+
+#### Examples
+
+- [TrashGuy Animation](https://github.com/XomaDev/Eia64/blob/main/examples/animation.eia): You type in some text in the terminal, and he steals them!
+- [What about writing a math interpreter in a language in a language?](https://github.com/XomaDev/Eia64/blob/main/examples/mathsolver.eia): Math interpreter to evaluate basic arithmetic expressions in order!
+- [Fib Benchmarking](https://github.com/XomaDev/Eia64/blob/main/examples/superfib.eia): See how fast the language is 👀
 
 :D Hope you liked it!\
 16-year-old high school programmer,\
